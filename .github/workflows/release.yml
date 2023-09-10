@@ -1,0 +1,48 @@
+name: Release
+on:
+    push:
+        tags:
+            - 'v*'
+    workflow_dispatch:
+
+jobs:
+    release:
+        permissions:
+            contents: write
+        # strategy:
+        #     fail-fast: false
+        #     matrix:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+
+            - name: Rust Setup
+              uses: dtolnay/rust-toolchain@stable
+
+            - name: Rust cache
+              uses: swatinem/rust-cache@v2
+              with:
+                  workspaces: './src-tauri -> target'
+
+            - name: Sync node version and setup cache
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 'lts/*'
+                  cache: 'pnpm' # Set this to npm, yarn or pnpm.
+
+            - name: Install frontend dependencies
+              run: pnpm install
+
+            - name: Build build the app
+              uses: tauri-apps/tauri-action@v0
+
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tagName: ${{ github.ref_name }} # This only works if your workflow triggers on new tags.
+                  releaseName: 'App Name v__VERSION__' # tauri-action replaces \_\_VERSION\_\_ with the app version.
+                  releaseBody: 'Release notes' # Optional. If not set, the release body will be the commit message of the commit that triggered the workflow.
+                  releaseDraft: false # Optional. If set to true, the release will be marked as a draft.
+                  prerelease: false # Optional. If set to true, the release will be marked as a prerelease.
