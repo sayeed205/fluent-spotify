@@ -1,0 +1,64 @@
+{
+    "build": {
+        "beforeDevCommand": "pnpm dev",
+        "beforeBuildCommand": "pnpm build",
+        "devPath": "http://localhost:1420",
+        "distDir": "../dist",
+        "withGlobalTauri": false
+    },
+    "package": {
+        "productName": "Fluent Spotify",
+        "version": "../package.json"
+    },
+    "tauri": {
+        "allowlist": {
+            "all": false,
+            "shell": {
+                "all": false,
+                "open": true
+            },
+            "window": {
+                "all": false,
+                "close": true,
+                "hide": true,
+                "show": true,
+                "maximize": true,
+                "minimize": true,
+                "unmaximize": true,
+                "unminimize": true,
+                "startDragging": true,
+                "create": true
+            }
+        },
+        "bundle": {
+            "active": true,
+            "targets": "msi",
+            "identifier": "com.hitarashi.fluent-spotify",
+            "icon": [
+                "icons/32x32.png",
+                "icons/128x128.png",
+                "icons/128x128@2x.png",
+                "icons/icon.ico"
+            ],
+            "shortDescription": "A Fluent Spotify client",
+            "category": "Music",
+            "longDescription": "A windows spotify client with fluent design."
+        },
+        "security": {
+            "csp": null
+        },
+        "windows": [
+            {
+                "fullscreen": false,
+                "resizable": true,
+                "title": "Fluent Spotify",
+                "width": 1400,
+                "height": 700,
+                "visible": true,
+                "transparent": true,
+                "center": true,
+                "decorations": false
+            }
+        ]
+    }
+}
