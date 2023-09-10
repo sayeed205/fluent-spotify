@@ -1,7 +1,7 @@
 {
     "name": "fluent-spotify",
     "private": true,
-    "version": "0.0.0",
+    "version": "0.0.1",
     "description": "A windows spotify client with fluent design",
     "type": "module",
     "scripts": {
